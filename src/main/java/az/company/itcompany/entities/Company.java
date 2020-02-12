@@ -3,8 +3,10 @@ package az.company.itcompany.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -12,10 +14,12 @@ import java.util.Date;
 @Table(name = "company", schema = "workplace")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company {
+public class Company implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(columnDefinition = "companyId")
     private Long id;
 
     private String name;
@@ -26,6 +30,8 @@ public class Company {
 
     private String officeNumber;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdDate;
 
     private String logo;
