@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
@@ -18,22 +20,14 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/creat")
-    public String save(@RequestParam("name") String name,
-                       @RequestParam("address") String address,
-                       @RequestParam("mobileNumber") String mobileNumber,
-                       @RequestParam("officeNumber") String officeNumber,
-                       @RequestParam("logo") String logo) {
-        Company company = new Company();
-        company.setName(name);
-        company.setAddress(address);
-        company.setMobileNumber(mobileNumber);
-        company.setOfficeNumber(officeNumber);
-        company.setLogo(logo);
-        company.setStatus(true);
+    @GetMapping("/get")
+    public List<Company> getCompanyById(@RequestParam("id") Long id) {
+        return companyService.getCompanyById(id);
+    }
 
-        companyService.save(company);
-
-        return "Successfully added...";
+    @GetMapping("/deleteAll")
+    public String deleteAll() {
+        companyService.deleteAll();
+        return "successfully deleted";
     }
 }

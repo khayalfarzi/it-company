@@ -1,0 +1,27 @@
+{
+	"name":"Khayal",
+	"surname":"Farziyev",
+	"username":"khayalfarzi",
+	"password":"khayalfarzi",
+	"status": "true",
+	"company":{
+		"id":1,
+		"name":"azericard",
+		"address":"asdafa",
+		"mobileNumber":123,
+		"officeNumber":123,
+		"logo":"asdasf",
+		"status":"true"
+	},
+	"phoneNumber":123,
+//	"role":"ADMIN"
+}
+
+
+{
+	"name":"KhayalGroup",
+	"address":"Farziyev",
+	"mobileNumber":"khayalfarzi",
+	"officeNumber":"khayalfarzi",
+	"logo": "true"
+}

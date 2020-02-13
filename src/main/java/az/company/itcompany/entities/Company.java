@@ -3,7 +3,7 @@ package az.company.itcompany.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,27 +11,26 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "company", schema = "workplace")
+@Table(name = "company")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(columnDefinition = "companyId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //    @Size(min = 5, max = 20, message = "The company name must contain at least 5 characters maximum 20 characters")
     private String name;
 
+    //    @Size(min = 7, max = 30, message = "The company address must contain at least 7 characters maximum 30 characters")
     private String address;
-
+    //    @Size(min = 7, max = 20, message = "The company mobile number must contain at least 7 characters maximum 20 characters")
     private String mobileNumber;
-
+    //    @Size(min = 3, max = 7, message = "The company office number must contain at least 3 characters maximum 7 characters")
     private String officeNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
+    @CreationTimestamp
     private Date createdDate;
 
     private String logo;

@@ -3,8 +3,9 @@ package az.company.itcompany.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,13 +15,13 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user", schema = "workplace")
+@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -32,22 +33,19 @@ public class User implements Serializable {
     private String password;
 
     private boolean status;
-
+    @ManyToOne
+    @JoinColumn(name = "company_id")
     private Company company;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
+    @CreationTimestamp
     private Date registerDate;
 
     private String phoneNumber;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private Date lastLoginDate;
 
-    private Role role;
-
-    @OneToMany(targetEntity = Company.class, mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Company> companyId = new ArrayList<>();
+    private String role;
 
     @Override
     public String toString() {
@@ -62,8 +60,7 @@ public class User implements Serializable {
                 ", registerDate=" + registerDate +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", lastLoginDate=" + lastLoginDate +
-                ", role=" + role +
-                ", companyId=" + companyId +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
