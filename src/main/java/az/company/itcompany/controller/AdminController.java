@@ -19,8 +19,7 @@ public class AdminController {
     }
 
     @PostMapping("/operator/save")
-    public void save(@RequestBody User user){
-        user.setRole(Role.OPERATOR.name());
-        userService.save(user);
+    public void save(@RequestBody User user,String key){
+        userService.save(user,key);
     }
 }

@@ -1,7 +1,6 @@
 package az.company.itcompany.controller;
 
 import az.company.itcompany.entities.Company;
-import az.company.itcompany.entities.Role;
 import az.company.itcompany.entities.User;
 import az.company.itcompany.services.CompanyService;
 import az.company.itcompany.services.UserService;
@@ -21,26 +20,36 @@ public class SuperAdminController {
     }
 
     @GetMapping("/company/getAll")
-    public List<Company> getListOfCompany() {
-        return companyService.getListOfCompany();
+    public List<Company> getListOfCompany(@RequestParam("key") String key) {
+        return companyService.getListOfCompany(key);
     }
 
     @PostMapping("/company/save")
-    public String save(@RequestBody Company company) {
-        company.setStatus(true);
+    public String save(@RequestBody Company company,
+                       @RequestParam("key") String key) {
 
-        companyService.save(company);
+        companyService.save(company, key);
 
         return String.format("Your access key : %s", company.getId());
     }
 
     @PostMapping("/admin/save")
-    public String save(@RequestBody User user) {
-
-        user.setRole(Role.ADMIN.name());
-
-        userService.save(user);
-
-        return String.format("Successfully added: %s", user.getName());
+    public String save(@RequestBody User user,
+                       @RequestParam("key") String key) {
+        userService.save(user, key);
+        return "Okay";
     }
+
+    @GetMapping("/deleteAll")
+    public String deleteAll(String key) {
+        companyService.deleteAll(key);
+        return "successfully deleted";
+    }
+
+    @GetMapping("/get")
+    public List<Company> getCompanyById(@RequestParam("id") Long id,
+                                        @RequestParam("key") String key) {
+        return companyService.getCompanyById(id, key);
+    }
+
 }

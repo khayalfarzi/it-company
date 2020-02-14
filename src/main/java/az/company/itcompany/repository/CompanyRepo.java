@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface CompanyRepo extends CrudRepository<Company, Long> {
 
-    @Query(value = "select * from \"it-company\".workplace.company", nativeQuery = true)
+    @Query(value = "select * from company.companies", nativeQuery = true)
     List<Company> getListOfCompany();
 }

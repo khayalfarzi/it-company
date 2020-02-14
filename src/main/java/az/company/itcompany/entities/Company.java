@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "company")
+@Table(name = "companies")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Company implements Serializable {
