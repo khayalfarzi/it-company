@@ -25,8 +25,10 @@ public class Company implements Serializable {
 
     //    @Size(min = 7, max = 30, message = "The company address must contain at least 7 characters maximum 30 characters")
     private String address;
+
     //    @Size(min = 7, max = 20, message = "The company mobile number must contain at least 7 characters maximum 20 characters")
     private String mobileNumber;
+
     //    @Size(min = 3, max = 7, message = "The company office number must contain at least 3 characters maximum 7 characters")
     private String officeNumber;
 

@@ -45,6 +45,8 @@ public class User implements Serializable {
 
     private String role;
 
+    private String email;
+
     @Override
     public String toString() {
         return "User{" +
@@ -59,6 +61,7 @@ public class User implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", lastLoginDate=" + lastLoginDate +
                 ", role='" + role + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

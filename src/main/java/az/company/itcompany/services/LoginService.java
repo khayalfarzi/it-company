@@ -1,5 +1,7 @@
 package az.company.itcompany.services;
 
+import az.company.itcompany.dao.LoginDao;
+import az.company.itcompany.entities.LoginBean;
 import az.company.itcompany.entities.User;
 import az.company.itcompany.repository.UserRepo;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,26 @@ public class LoginService {
     }
 
     public String check(String username, String password) {
+
         User user = userRepo.getUserByUsernameAndPassword(username, password);
-        if (user.getRole().equals("SUPER_ADMIN")) {
-            return user.getRole();
-        } else if (user.getRole().equals("ADMIN")) {
-            return user.getRole();
-        } else if (user.getRole().equals("OPERATOR")) return user.getRole();
-        else return null;
+        LoginBean loginBean = new LoginBean(user.getUsername(), user.getPassword(), user.getRole());
+        LoginDao loginDao = new LoginDao();
+
+        String userValidate = loginDao.authenticateUser(loginBean);
+
+        switch (userValidate) {
+            case "SUPER_ADMIN":
+                return "SUPER_ADMIN";
+            case "ADMIN":/*
+            HttpSession session = request.getSession();
+            session.setAttribute("Admin", username);
+            request.setAttribute("username", username);
+            return session.getId();
+*/
+                return "ADMIN";
+            case "OPERATOR":
+                return "OPERATOR";
+        }
+        return null;
     }
 }
