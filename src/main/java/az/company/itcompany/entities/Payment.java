@@ -2,8 +2,7 @@ package az.company.itcompany.entities;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,6 +13,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "payment")
 public class Payment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private Long insuranceId;
 

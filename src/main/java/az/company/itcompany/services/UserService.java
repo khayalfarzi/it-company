@@ -4,10 +4,12 @@ import az.company.itcompany.entities.Role;
 import az.company.itcompany.entities.User;
 import az.company.itcompany.exceptions.NoDataFoundException;
 import az.company.itcompany.exceptions.NotAllowException;
+import az.company.itcompany.mailprocess.MailSenderProcess;
 import az.company.itcompany.repository.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.mail.MessagingException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +20,27 @@ public class UserService {
 
     private final UserRepo userRepo;
 
+    @Autowired
+    private MailSenderProcess mailSenderProcess;
+
     public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
-    public void save(User user, String key) {
+    public void save(User user, String key) throws MessagingException {
 
         if (key.equals("SUPER_ADMIN")) {
 
             user.setRole(Role.ADMIN.name());
             userRepo.save(user);
+            mailSenderProcess.sendEmail(user.getEmail());
 
         } else if (key.equals("ADMIN")) {
 
             user.setRole(Role.OPERATOR.name());
             userRepo.save(user);
+            mailSenderProcess.sendEmail(user.getEmail());
+
         } else throw new NotAllowException(String.format("User not allowed exception: %s", LocalTime.now()));
     }
 
@@ -82,5 +90,15 @@ public class UserService {
                 userRepo.deleteUser(id);
             } else throw new NotAllowException("User not allow to delete Operator");
         }
+    }
+
+    public void updateUserByStatus(String email, String status) {
+        if (status.equals("true")) {
+            userRepo.updateUserByStatus(email);
+        }
+    }
+
+    public List<User> getListOfOperatorsByCompany(String companyName) {
+        return userRepo.getUsersByCompanyName(companyName);
     }
 }

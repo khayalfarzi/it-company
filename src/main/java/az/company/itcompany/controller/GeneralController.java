@@ -6,6 +6,7 @@ import az.company.itcompany.services.CompanyService;
 import az.company.itcompany.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -18,6 +19,23 @@ public class GeneralController {
         this.userService = userService;
         this.companyService = companyService;
     }
+/**
+ * methods inside GeneralController class
+ * =======================================
+ *                                       \\
+ * -user save                            \\
+ * -company save                         \\
+ * -admin getAll                         \\
+ * -company getAll                       \\
+ * -operator getAll                      \\
+ * -company deleteAll                    \\
+ * -company getById                      \\
+ * -admin delete                         \\
+ * -active                               \\
+ * -getUserById                          \\
+ * -getListOfOperatorsByCompany          \\
+ * ========================================
+ * */
 
 
     /**
@@ -36,9 +54,9 @@ public class GeneralController {
      * after user activation, the status of the user become true
      */
     @PostMapping("/save")
-    public String save(@RequestBody User user, @RequestParam("key") String key) {
+    public String save(@RequestBody User user, @RequestParam("key") String key) throws MessagingException {
         userService.save(user, key);
-        return String.format("Successfully added user. %s", user.getName());
+        return String.format("Successfully added user. %s please check your email address for activation link", user.getName());
     }
 
 
@@ -108,5 +126,30 @@ public class GeneralController {
     @PostMapping("/admin/delete")
     public void deleteUser(@RequestParam("id") Long id, @RequestParam("key") String key) {
         userService.deleteUser(id, key);
+    }
+
+
+    /**
+     * when user registered, activation link send user's email.
+     * when user click link, profile status change true from false
+     */
+    @GetMapping("/active")
+    public String accountActivation(@RequestParam("email") String email, @RequestParam("status") String status) {
+        userService.updateUserByStatus(email, status);
+        return "your account successfully activated";
+    }
+
+    @GetMapping("/user/getById")
+    public User getUserById(@RequestParam("id") Long id) {
+        return userService.getUserById(id);
+    }
+
+    /**
+     * Admin can get list of operators of his/her company.
+     * He/She can evaluate their productivity with their some values.
+     */
+    @GetMapping("/user/getListOfOperatorsByCompany")
+    public List<User> getListOfOperatorsByCompany(@RequestParam("companyName") String companyName) {
+        return userService.getListOfOperatorsByCompany(companyName);
     }
 }

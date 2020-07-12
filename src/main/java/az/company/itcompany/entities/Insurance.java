@@ -57,6 +57,8 @@ public class Insurance {
     //On register date: ACTIVE
     private LocalDate registerDate;
 
+    @OneToOne
+    @JoinColumn(name = "client_id")
     private Client client;
 
     private String createdBy;
